@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Relatório de Controle Externo</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <!-- Chama o arquivo CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <img src="logo.png" alt="Logo MP">
+      <h2>Sistema Jurídico<br><span>Controle Externo - Operacional</span></h2>
+    </div>
+
+    <div class="sidebar-content">
+      <div class="form-section">
+        <h3>I. Informações Gerais</h3>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Nº Relatório</label>
+            <input type="text" id="in-numero" maxlength="3" inputmode="numeric" placeholder="015" oninput="this.value = this.value.replace(/\D/g,'').slice(0,3); updateDoc()">
+          </div>
+          <div class="input-group">
+            <label>Ano</label>
+            <select id="in-ano" onchange="updateDoc()"></select>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Cidade</label>
+            <input type="text" id="in-cidade" placeholder="Ex: Brasil Roleplay" maxlength="40" oninput="updateDoc()">
+          </div>
+          <div class="input-group">
+            <label>Departamento</label>
+            <select id="in-dp" onchange="updateDoc()">
+              <option value="Polícia Civil">Polícia Civil</option>
+              <option value="Polícia Militar">Polícia Militar</option>
+              <option value="Polícia Federal">Polícia Federal</option>
+              <option value="ROTA">ROTA</option>
+              <option value="BOPE">BOPE</option>
+              <option value="Polícia Rodoviária Federal">Polícia Rodoviária Federal</option>
+              <option value="Exército Brasileiro">Exército Brasileiro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Promotor(a)</label>
+            <input type="text" id="in-promotor" placeholder="Nome do promotor(a)" maxlength="40" oninput="updateDoc()">
+          </div>
+          <div class="input-group">
+            <label>Passaporte (ID)</label>
+            <input type="text" id="in-passaporte" placeholder="123456" maxlength="6" inputmode="numeric" pattern="[0-9]*" oninput="this.value = this.value.replace(/\D/g,'').slice(0,6); updateDoc()">
+          </div>
+        </div>
+
+        <div class="input-row">
+          <div class="input-group">
+            <label>Data</label>
+            <input type="date" id="in-data" oninput="updateDoc()">
+          </div>
+          <div class="input-group">
+            <label>Início</label>
+            <input type="time" id="in-inicio" oninput="updateDoc()">
+          </div>
+          <div class="input-group">
+            <label>Término</label>
+            <input type="time" id="in-fim" oninput="updateDoc()">
+          </div>
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Comandante/Diretor Responsável</label>
+          <input type="text" id="in-diretor" maxlength="40" placeholder="Nome do responsável" oninput="updateDoc()">
+        </div>
+
+        <div class="input-group">
+          <label>Membros da Equipe (MP)</label>
+          <div class="member-input-wrap">
+            <input type="text" id="in-membro-novo" maxlength="40" placeholder="Nome do membro" onkeydown="if(event.key==='Enter'){event.preventDefault(); adicionarMembro();}">
+            <button type="button" class="btn-add-member" onclick="adicionarMembro()">Adicionar</button>
+          </div>
+          <div id="member-list" class="member-list"></div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>II. Checklist de Fiscalização</h3>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Registro no Poder Judiciário</label>
+          <select id="in-brajud" onchange="updateDoc()">
+            <option value="Regular">Regular</option>
+            <option value="Parcial">Parcial</option>
+            <option value="Irregular">Irregular</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Cadeia de custódia e apreensões</label>
+          <select id="in-custodia" onchange="updateDoc()">
+            <option value="Adequada">Adequada</option>
+            <option value="Inadequada">Inadequada</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Leitura de direitos (Miranda)</label>
+          <select id="in-miranda" onchange="updateDoc()">
+            <option value="Regular">Regular</option>
+            <option value="Irregular/Violações">Irregular/Violações</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Cumprimento de mandados</label>
+          <select id="in-mandados" onchange="updateDoc()">
+            <option value="Regular">Regular</option>
+            <option value="Irregular">Irregular</option>
+          </select>
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Cursos e treinamento</label>
+          <select id="in-cursos" onchange="updateDoc()">
+            <option value="Ativos">Ativos</option>
+            <option value="Baixa adesão">Baixa adesão</option>
+            <option value="Inativos">Inativos</option>
+          </select>
+        </div>
+        <div class="input-row">
+          <div class="input-group">
+            <label>Celas</label>
+            <select id="in-celas" onchange="updateDoc()">
+              <option value="Adequadas">Adequadas</option>
+              <option value="Inadequadas">Inadequadas</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Viatura/Arma</label>
+            <select id="in-frota" onchange="updateDoc()">
+              <option value="Atende a demanda">Atende a demanda</option>
+              <option value="Defasada">Defasada</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>III. Observações Específicas</h3>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Operacionais e Investigativos</label>
+          <textarea id="in-obs1" rows="3" maxlength="250" placeholder="Inquéritos, padrão de abordagem..." oninput="updateDoc()"></textarea>
+        </div>
+        <div class="input-group">
+          <label>Infraestrutura e Ensino</label>
+          <textarea id="in-obs2" rows="3" maxlength="250" placeholder="Preparo dos recrutas, infraestrutura..." oninput="updateDoc()"></textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h3>IV. Parecer e Recomendações</h3>
+        <div class="input-group" style="margin-bottom: 10px;">
+          <label>Situação Geral da DP</label>
+          <select id="in-situacao" onchange="updateDoc()">
+            <option value="Apta/Legal">Apta/Legal</option>
+            <option value="Com Ressalvas (adequações curtas)">Com Ressalvas</option>
+            <option value="Crítica (requer intervenção/Corregedoria)">Crítica</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Recomendações / Síntese</label>
+          <textarea id="in-sintese" rows="4" maxlength="250" placeholder="Medidas exigidas..." oninput="updateDoc()"></textarea>
+        </div>
+      </div>
+
+      <button class="btn-gerar" onclick="gerarImagem()">Emitir Relatório (PNG)</button>
+    </div>
+  </div>
+
+  <div class="viewer">
+    <div class="a4-paper" id="relatorio-a4">
+      <div class="doc-content">
+        <div class="doc-header">
+          <img src="logo.png" alt="Brasão MP">
+          <h1>Ministério Público Estadual</h1>
+          <h2>Relatório de Controle Externo da Atividade Policial</h2>
+        </div>
+
+        <div class="doc-section-title">I. Informações Gerais</div>
+        <div class="doc-grid">
+          <div class="doc-text"><strong>Nº do Relatório / Ano:</strong> <span id="out-numero">___</span> / <span id="out-ano">2026</span></div>
+          <div class="doc-text"><strong>Departamento Inspecionado:</strong> <span id="out-dp">Polícia Civil</span></div>
+          <div class="doc-text"><strong>Promotor(a) de Justiça:</strong> <span id="out-promotor">__________________</span></div>
+          <div class="doc-text"><strong>Passaporte (ID):</strong> <span id="out-passaporte">_____</span></div>
+          <div class="doc-text"><strong>Data:</strong> <span id="out-data">DD/MM/AAAA</span></div>
+          <div class="doc-text"><strong>Horário:</strong> <span id="out-inicio">--:--</span> às <span id="out-fim">--:--</span></div>
+          <div class="doc-text"><strong>Comandante / Diretor Responsável:</strong> <span id="out-diretor">__________________</span></div>
+          <div class="doc-text"><strong>Membros da Equipe (MP):</strong> <span id="out-membros">__________________</span></div>
+        </div>
+
+        <div class="doc-section-title">II. Checklist de Fiscalização</div>
+        <div class="doc-text" style="background: transparent; border: none; padding-left: 0; font-weight: 700; text-decoration: underline; margin-top: 8px;">Investigação (Inquérito e Custódia):</div>
+        <div class="check-group">
+          <div class="check-title">Registro de inquéritos no Poder Judiciário:</div>
+          <div class="check-options" id="out-brajud"></div>
+        </div>
+        <div class="check-group">
+          <div class="check-title">Cadeia de custódia e apreensões:</div>
+          <div class="check-options" id="out-custodia"></div>
+        </div>
+
+        <div class="doc-text" style="background: transparent; border: none; padding-left: 0; font-weight: 700; text-decoration: underline; margin-top: 8px;">Operacional (Prisões e Mandados):</div>
+        <div class="check-group">
+          <div class="check-title">Leitura de direitos (Miranda) e flagrantes:</div>
+          <div class="check-options" id="out-miranda"></div>
+        </div>
+        <div class="check-group">
+          <div class="check-title">Cumprimento de mandados (horário/identificação):</div>
+          <div class="check-options" id="out-mandados"></div>
+        </div>
+
+        <div class="doc-text" style="background: transparent; border: none; padding-left: 0; font-weight: 700; text-decoration: underline; margin-top: 8px;">Academia e Infraestrutura:</div>
+        <div class="check-group">
+          <div class="check-title">Cursos de formação e treinamento:</div>
+          <div class="check-options" id="out-cursos"></div>
+        </div>
+        <div class="check-group">
+          <div class="check-title">Condições das celas e carceragem:</div>
+          <div class="check-options" id="out-celas"></div>
+        </div>
+        <div class="check-group">
+          <div class="check-title">Frota de viaturas e armamento:</div>
+          <div class="check-options" id="out-frota"></div>
+        </div>
+
+        <div class="doc-section-title">III. Observações Específicas</div>
+        <div class="doc-text"><strong>Operacionais e Investigativos:</strong></div>
+        <div class="doc-textarea-output" id="out-obs1">Nenhuma observação registrada.</div>
+        <div class="doc-text"><strong>Infraestrutura e Ensino:</strong></div>
+        <div class="doc-textarea-output" id="out-obs2">Nenhuma observação registrada.</div>
+
+        <div class="doc-section-title">IV. Parecer Final e Recomendações</div>
+        <div class="check-group">
+          <div class="check-title">Situação Geral da DP:</div>
+          <div class="check-options" id="out-situacao"></div>
+        </div>
+        <div class="doc-text"><strong>Recomendações / Síntese:</strong></div>
+        <div class="doc-textarea-output" id="out-sintese">Nenhuma recomendação registrada.</div>
+
+        <div class="signature-box">
+          <p id="out-cidade-data">Brasil Roleplay, _____ de _______________ de 2026.</p>
+          <div class="signature-line"></div>
+          <p><strong><span id="out-assinatura-nome">PROMOTOR(A) DE JUSTIÇA</span></strong></p>
+          <p>Ministério Público Estadual</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Chama o arquivo JavaScript -->
+  <script src="script.js"></script>
+</body>
+</html>
