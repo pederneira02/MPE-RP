@@ -10,7 +10,7 @@
 <body>
   <div class="sidebar">
     <div class="sidebar-header">
-      <img src="logo.png" alt="Logo MP">
+      <img src="logo.png" alt="Logo MP" onerror="this.style.display='none'">
       <h2>SISTEMA JURÍDICO<br><span>Hub de Ferramentas - MPE</span></h2>
     </div>
 
@@ -27,6 +27,7 @@
         <option value="manifestacao">Manifestação Ministerial</option>
         <option value="parecer">Parecer Jurídico</option>
         <option value="oficio">Ofício do MP</option>
+        <option value="leis">Biblioteca de Leis / Extrato PDF</option>
       </select>
     </div>
 
@@ -35,7 +36,7 @@
       <!-- FORMULÁRIO 1: CONTROLE EXTERNO -->
       <div id="form-controle" class="form-container hidden">
         <div class="form-section">
-          <h3>Informações Gerais</h3>
+          <h3>Dados da Inspeção</h3>
           <div class="input-row">
             <div class="input-group">
               <label>Nº Relatório</label>
@@ -44,6 +45,16 @@
             <div class="input-group">
               <label>Ano</label>
               <input type="text" id="ctrl-ano" value="2026" oninput="updateDoc()">
+            </div>
+          </div>
+          <div class="input-row">
+            <div class="input-group">
+              <label>Data</label>
+              <input type="date" id="ctrl-data" oninput="updateDoc()">
+            </div>
+            <div class="input-group">
+              <label>Efetivo Presente</label>
+              <input type="number" id="ctrl-efetivo" placeholder="Ex: 12" oninput="updateDoc()">
             </div>
           </div>
           <div class="input-group">
@@ -56,8 +67,28 @@
             </select>
           </div>
           <div class="input-group">
-            <label>Promotor(a)</label>
-            <input type="text" id="ctrl-promotor" placeholder="Nome do Promotor" oninput="updateDoc()">
+            <label>Comandante / Delegado Responsável</label>
+            <input type="text" id="ctrl-comandante" placeholder="Nome do Responsável" oninput="updateDoc()">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h3>Relatório de Auditoria</h3>
+          <div class="input-group">
+            <label>Situação Estrutural e Viaturas</label>
+            <textarea id="ctrl-estrutura" rows="3" placeholder="Descreva o estado do prédio, celas, armaria e frota..." oninput="updateDoc()"></textarea>
+          </div>
+          <div class="input-group">
+            <label>Irregularidades Constatadas</label>
+            <textarea id="ctrl-irregularidades" rows="3" placeholder="Apontar desvios de conduta, falhas ou ausência de irregularidades..." oninput="updateDoc()"></textarea>
+          </div>
+          <div class="input-group">
+            <label>Conclusão e Recomendações</label>
+            <textarea id="ctrl-conclusao" rows="3" placeholder="Parecer final do MP..." oninput="updateDoc()"></textarea>
+          </div>
+          <div class="input-group">
+            <label>Promotor(a) Auditor(a)</label>
+            <input type="text" id="ctrl-promotor" placeholder="Seu Nome" oninput="updateDoc()">
           </div>
         </div>
       </div>
@@ -68,7 +99,7 @@
           <h3>1. Qualificação das Partes</h3>
           <div class="input-group">
             <label>Promotor(a) de Justiça</label>
-            <input type="text" id="anpp-promotor" placeholder="Ex: Dr. Marco Antonio" oninput="updateDoc()">
+            <input type="text" id="anpp-promotor" placeholder="Nome do Promotor(a)" oninput="updateDoc()">
           </div>
           <div class="input-row">
             <div class="input-group">
@@ -103,20 +134,17 @@
             <input type="text" id="anpp-dano-val" placeholder="Valor (R$) ou Bem" oninput="updateDoc()">
             <input type="text" id="anpp-vitima" placeholder="Nome da Vítima" oninput="updateDoc()">
           </div>
-          <br>
-          <div class="input-group">
+          <div class="input-group" style="margin-top: 10px;">
             <label><input type="checkbox" id="chk-pecuniaria" onchange="updateDoc()"> Prestação Pecuniária</label>
             <input type="text" id="anpp-pec-val" placeholder="Valor (R$)" oninput="updateDoc()">
             <input type="text" id="anpp-pec-dest" placeholder="Fundo/Instituição Destino" oninput="updateDoc()">
           </div>
-          <br>
-          <div class="input-group">
+          <div class="input-group" style="margin-top: 10px;">
             <label><input type="checkbox" id="chk-servico" onchange="updateDoc()"> Prestação de Serviços</label>
             <input type="text" id="anpp-serv-horas" placeholder="Qtd. Horas" oninput="updateDoc()">
             <input type="text" id="anpp-serv-local" placeholder="Local (Ex: Hospital)" oninput="updateDoc()">
           </div>
-          <br>
-          <div class="input-group">
+          <div class="input-group" style="margin-top: 10px;">
             <label><input type="checkbox" id="chk-outros" onchange="updateDoc()"> Condições Adicionais</label>
             <textarea id="anpp-outros-text" rows="2" placeholder="Ex: Proibição de frequentar locais..." oninput="updateDoc()"></textarea>
           </div>
@@ -153,12 +181,12 @@
             </div>
           </div>
           <div class="input-group">
-            <label>Capitulação Penal (Tipificação / Artigo)</label>
+            <label>Capitulação Penal (Tipificação)</label>
             <input type="text" id="denuncia-artigo" placeholder="Ex: Art. 155 do Código Penal (Furto)" oninput="updateDoc()">
           </div>
           <div class="input-group">
             <label>Exposição dos Fatos / Fundamentação</label>
-            <textarea id="denuncia-fatos" rows="5" placeholder="Descreva sucintamente a conduta criminosa ou a fundamentação do indeferimento..." oninput="updateDoc()"></textarea>
+            <textarea id="denuncia-fatos" rows="6" placeholder="Descreva sucintamente a conduta criminosa ou a fundamentação do indeferimento..." oninput="updateDoc()"></textarea>
           </div>
           <div class="input-group">
             <label>Promotor(a) de Justiça</label>
@@ -167,7 +195,30 @@
         </div>
       </div>
 
-      <!-- FORMULÁRIO GENÉRICO (Para Requisição, Promoção, Arquivamento, Manifestação, Parecer e Ofício) -->
+      <!-- FORMULÁRIO 4: BIBLIOTECA DE LEIS -->
+      <div id="form-leis" class="form-container hidden">
+        <div class="form-section">
+          <h3>Consulta / Extrato de Leis</h3>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px; text-align: justify;">
+            Gere um documento rápido contendo trechos dos principais códigos para anexar a processos ou para consulta rápida durante o RP.
+          </p>
+          <div class="input-group">
+            <label>Selecione a Legislação</label>
+            <select id="leis-selecao" onchange="updateDoc()">
+              <option value="cp">Código Penal (Principais Artigos)</option>
+              <option value="cpp">Código de Processo Penal</option>
+              <option value="cf">Constituição (Direitos Fundamentais)</option>
+              <option value="cc">Código Civil (Parte Geral)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Observação / Foco da Consulta</label>
+            <input type="text" id="leis-obs" placeholder="Ex: Foco em crimes contra o patrimônio" oninput="updateDoc()">
+          </div>
+        </div>
+      </div>
+
+      <!-- FORMULÁRIO GENÉRICO -->
       <div id="form-generico" class="form-container hidden">
         <div class="form-section">
           <h3>Preenchimento do Documento</h3>
@@ -177,11 +228,11 @@
           </div>
           <div class="input-group">
             <label>Destinatário / Requerido</label>
-            <input type="text" id="gen-destinatario" placeholder="Ex: Ao Comandante do 1º BPM / Ao Juízo da 1ª Vara" oninput="updateDoc()">
+            <input type="text" id="gen-destinatario" placeholder="Ex: Ao Comandante do 1º BPM" oninput="updateDoc()">
           </div>
           <div class="input-group">
             <label>Teor do Documento / Fundamentação</label>
-            <textarea id="gen-texto" rows="8" placeholder="Escreva o texto do documento ministerial..." oninput="updateDoc()"></textarea>
+            <textarea id="gen-texto" rows="10" placeholder="Escreva o texto do documento ministerial..." oninput="updateDoc()"></textarea>
           </div>
           <div class="input-group">
             <label>Promotor(a) de Justiça</label>
